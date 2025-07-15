@@ -141,16 +141,18 @@ func main() {
 	dctl.cls()
 
 	grid := NewGrid(dctl.display.Image.Bounds(), iconSize, padding)
-	iv := NewIconsView(icons, grid, *pageSize)
-	iv.Connect(dctl)
 
 	var views []View
-	views = append(views, iv)
 	if *startSingle {
-		sv := NewSingleView(icons, 0, iv.offset.grid.area)
+		sv := NewSingleView(icons, 0, grid.area)
 		sv.Connect(dctl)
 		views = append(views, sv)
+	} else {
+		iv := NewIconsView(icons, grid, *pageSize)
+		iv.Connect(dctl)
+		views = append(views, iv)
 	}
+
 	for len(views) > 0 {
 		v := views[len(views)-1]
 		v.Attach(dctl.display.Image.Bounds())
