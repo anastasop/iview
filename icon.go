@@ -38,11 +38,12 @@ type Icon struct {
 
 // IconImage hold the contents of an icon.
 type IconImage struct {
-	*Icon                  // the origin of the image
-	data      []byte       // the image contents from file
-	thumb     *draw9.Image // thumbnail for display
-	displayer Displayer    // function to compute the display for the image
-	exifInfo  string       // a summary of the EXIF data if present
+	*Icon                      // the origin of the image
+	data       []byte          // the image contents from file
+	origBounds image.Rectangle // the bounds of image
+	thumb      *draw9.Image    // thumbnail for display
+	displayer  Displayer       // function to compute the display for the image
+	exifInfo   string          // a summary of the EXIF data if present
 }
 
 var (
@@ -100,6 +101,7 @@ func (i *IconImage) Load() error {
 			return fmt.Errorf("load: display image: %w", err)
 		}
 		i.thumb = thumb
+		i.origBounds = image.Rect(0, 0, img.Bounds().Dx(), img.Bounds().Dy())
 	}
 
 	return nil

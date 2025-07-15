@@ -162,7 +162,7 @@ func (sv *SingleView) paint(dctl *DisplayControl) {
 	if sv.showInfo {
 		lines = append(lines, sv.area.Min)
 		text = append(text, fmt.Sprintf("%d/%d %v %s",
-			sv.at+1, sv.iconsCache.Len(), img.Bounds().Max, icon.path))
+			sv.at+1, sv.iconsCache.Len(), icon.origBounds, icon.path))
 		if icon.exifInfo != "" {
 			lines = append(lines, lines[len(lines)-1].Add(image.Point{0, font.Height}))
 			text = append(text, icon.exifInfo)
